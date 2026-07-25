@@ -23,6 +23,7 @@ import type {
   TextBlock,
   VideoBlock,
 } from "@/lib/types";
+import { MediaUploadField } from "@/components/media-upload-field";
 
 const uid = () => crypto.randomUUID();
 
@@ -162,7 +163,7 @@ function GalleryFields({ block, onChange }: { block: GalleryBlock; onChange: (bl
   return <><div className="builder-fields"><Field label="Section heading"><input value={block.title || ""} onChange={(e) => onChange({ ...block, title: e.target.value })} /></Field><Field label="Gallery layout"><select value={block.layout || "grid"} onChange={(e) => onChange({ ...block, layout: e.target.value as GalleryBlock["layout"] })}><option value="grid">Balanced grid</option><option value="featured">Featured first image</option><option value="masonry">Masonry rhythm</option></select></Field></div>
     <Repeater addLabel="Add image" onAdd={() => onChange({ ...block, items: [...items, { id: uid(), src: "", alt: "", caption: "", url: "" }] })}>
       {items.map((item, index) => <ItemShell key={item.id} title={`Image ${index + 1}`} onDelete={() => onChange({ ...block, items: items.filter((entry) => entry.id !== item.id) })}>
-        <Field label="Image URL" wide><input type="url" value={item.src} onChange={(e) => onChange({ ...block, items: items.map((entry) => entry.id === item.id ? { ...entry, src: e.target.value } : entry) })} /></Field>
+        <Field label="Image" wide><MediaUploadField kind="image" value={item.src} onChange={(src) => onChange({ ...block, items: items.map((entry) => entry.id === item.id ? { ...entry, src } : entry) })} /></Field>
         <Field label="Alt text"><input value={item.alt} onChange={(e) => onChange({ ...block, items: items.map((entry) => entry.id === item.id ? { ...entry, alt: e.target.value } : entry) })} /></Field>
         <Field label="Caption"><input value={item.caption || ""} onChange={(e) => onChange({ ...block, items: items.map((entry) => entry.id === item.id ? { ...entry, caption: e.target.value } : entry) })} /></Field>
         <Field label="Click-through URL" wide hint="Optional: visitors are redirected when they click the image."><input type="url" value={item.url || ""} onChange={(e) => onChange({ ...block, items: items.map((entry) => entry.id === item.id ? { ...entry, url: e.target.value } : entry) })} /></Field>
@@ -177,7 +178,7 @@ function PostsFields({ block, onChange }: { block: PostsBlock; onChange: (block:
       {items.map((item, index) => <ItemShell key={item.id} title={`Post ${index + 1}`} onDelete={() => onChange({ ...block, items: items.filter((entry) => entry.id !== item.id) })}>
         <Field label="Post text" wide><textarea rows={4} value={item.content} onChange={(e) => onChange({ ...block, items: items.map((entry) => entry.id === item.id ? { ...entry, content: e.target.value } : entry) })} /></Field>
         <Field label="Publish date"><input type="date" value={item.publishedAt} onChange={(e) => onChange({ ...block, items: items.map((entry) => entry.id === item.id ? { ...entry, publishedAt: e.target.value } : entry) })} /></Field>
-        <Field label="Optional image URL"><input type="url" value={item.image || ""} onChange={(e) => onChange({ ...block, items: items.map((entry) => entry.id === item.id ? { ...entry, image: e.target.value } : entry) })} /></Field>
+        <Field label="Optional image"><MediaUploadField kind="image" value={item.image || ""} onChange={(image) => onChange({ ...block, items: items.map((entry) => entry.id === item.id ? { ...entry, image } : entry) })} /></Field>
       </ItemShell>)}
     </Repeater></>;
 }
@@ -191,7 +192,7 @@ function BlogsFields({ block, onChange }: { block: BlogBlock; onChange: (block: 
         <Field label="Title"><input value={item.title} onChange={(e) => updateItem(item.id, { title: e.target.value })} /></Field>
         <Field label="URL slug"><input value={item.slug} onChange={(e) => updateItem(item.id, { slug: e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, "") })} /></Field>
         <Field label="Excerpt" wide><textarea rows={3} value={item.excerpt} onChange={(e) => updateItem(item.id, { excerpt: e.target.value })} /></Field>
-        <Field label="Cover image URL" wide><input type="url" value={item.coverImage} onChange={(e) => updateItem(item.id, { coverImage: e.target.value })} /></Field>
+        <Field label="Cover image" wide><MediaUploadField kind="image" value={item.coverImage} onChange={(coverImage) => updateItem(item.id, { coverImage })} /></Field>
         <Field label="Author"><input value={item.authorName} onChange={(e) => updateItem(item.id, { authorName: e.target.value })} /></Field>
         <Field label="Publish date"><input type="date" value={item.publishedAt} onChange={(e) => updateItem(item.id, { publishedAt: e.target.value })} /></Field>
         <Field label="Full article" wide><textarea className="article-editor" rows={12} value={item.content} onChange={(e) => updateItem(item.id, { content: e.target.value })} /></Field>
@@ -207,9 +208,9 @@ function VideosFields({ block, onChange }: { block: VideoBlock; onChange: (block
       {items.map((item, index) => <ItemShell key={item.id} title={`Video ${index + 1}`} onDelete={() => onChange({ ...block, items: items.filter((entry) => entry.id !== item.id) })}>
         <Field label="Title"><input value={item.title} onChange={(e) => updateItem(item.id, { title: e.target.value })} /></Field>
         <Field label="Provider"><select value={item.provider} onChange={(e) => updateItem(item.id, { provider: e.target.value as VideoBlock["items"][number]["provider"] })}><option value="youtube">YouTube</option><option value="vimeo">Vimeo</option><option value="mp4">Direct MP4</option><option value="embed">Embed URL</option></select></Field>
-        <Field label="Video URL" wide><input type="url" value={item.source} onChange={(e) => updateItem(item.id, { source: e.target.value })} /></Field>
+        <Field label="Video source" wide><MediaUploadField kind="video" value={item.source} onChange={(source) => updateItem(item.id, { source, provider: source.startsWith("/media/") ? "mp4" : item.provider })} /></Field>
         <Field label="Description" wide><textarea rows={3} value={item.description || ""} onChange={(e) => updateItem(item.id, { description: e.target.value })} /></Field>
-        <Field label="Thumbnail URL"><input type="url" value={item.thumbnail || ""} onChange={(e) => updateItem(item.id, { thumbnail: e.target.value })} /></Field>
+        <Field label="Thumbnail"><MediaUploadField kind="image" value={item.thumbnail || ""} onChange={(thumbnail) => updateItem(item.id, { thumbnail })} /></Field>
         <Field label="First-click external URL"><input type="url" value={item.externalUrl || ""} onChange={(e) => updateItem(item.id, { externalUrl: e.target.value })} /></Field>
         <Field label="Unlock delay (seconds)" hint="Recommended: 10–15 seconds."><input type="number" min={0} max={60} value={item.redirectDelaySeconds || 12} onChange={(e) => updateItem(item.id, { redirectDelaySeconds: Number(e.target.value) })} /></Field>
         <Field label="CTA URL"><input type="url" value={item.ctaUrl || ""} onChange={(e) => updateItem(item.id, { ctaUrl: e.target.value })} /></Field>
@@ -221,7 +222,7 @@ function AdFields({ block, onChange }: { block: AdBlock; onChange: (block: AdBlo
   return <div className="builder-fields">
     <Field label="Internal label"><input value={block.title || ""} onChange={(e) => onChange({ ...block, title: e.target.value })} /></Field>
     <Field label="Ad format"><select value={block.format} onChange={(e) => onChange({ ...block, format: e.target.value as AdBlock["format"] })}><option value="html">HTML / Adsterra code</option><option value="script">Script ad</option><option value="iframe">Iframe embed</option><option value="image">Banner image</option></select></Field>
-    {block.format === "image" ? <><Field label="Banner image URL" wide><input type="url" value={block.imageUrl || ""} onChange={(e) => onChange({ ...block, imageUrl: e.target.value })} /></Field><Field label="Destination URL" wide><input type="url" value={block.destinationUrl || ""} onChange={(e) => onChange({ ...block, destinationUrl: e.target.value })} /></Field></> :
+    {block.format === "image" ? <><Field label="Banner image" wide><MediaUploadField kind="image" value={block.imageUrl || ""} onChange={(imageUrl) => onChange({ ...block, imageUrl })} /></Field><Field label="Destination URL" wide><input type="url" value={block.destinationUrl || ""} onChange={(e) => onChange({ ...block, destinationUrl: e.target.value })} /></Field></> :
       <Field label="Trusted ad code" wide hint="Paste code supplied by Adsterra or another trusted network."><textarea className="code-field" rows={9} value={block.code || ""} onChange={(e) => onChange({ ...block, code: e.target.value })} /></Field>}
     <label className="check-field"><input type="checkbox" checked={block.enabled} onChange={(e) => onChange({ ...block, enabled: e.target.checked })} /> Enable this advertisement</label>
   </div>;

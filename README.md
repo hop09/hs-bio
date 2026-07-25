@@ -56,3 +56,23 @@ visitors.
 
 The admin builder exposes this model through regular forms: sections and nested
 items can be added, edited, reordered, or removed without writing JSON.
+
+## Hostinger media storage
+
+The protected admin uploader supports JPG, PNG, WebP, GIF, AVIF, MP4, WebM,
+OGV, and MOV files. Uploaded filenames are randomized and media is delivered
+through `/media/*`; video responses support HTTP byte ranges for seeking.
+
+For Hostinger production, create a persistent writable directory outside
+temporary build output where possible, then configure:
+
+```env
+UPLOAD_DIR=/absolute/path/to/persistent/hsbio-uploads
+MAX_UPLOAD_MB=200
+```
+
+The Node.js application user must have read/write permission for this
+directory. Also set Hostinger's reverse-proxy request-body limit at or above
+`MAX_UPLOAD_MB`; otherwise the proxy can reject large videos before Next.js
+receives them. Keep the uploads directory in hosting backups because MongoDB
+stores media URLs, not the binary files.
