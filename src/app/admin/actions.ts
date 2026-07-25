@@ -12,7 +12,7 @@ export async function loginAction(_state: ActionState, formData: FormData): Prom
   const result = z.object({ email: z.string().email(), password: z.string().min(1) }).safeParse(Object.fromEntries(formData));
   if (!result.success) return { error: "Enter a valid email and password." };
   try {
-    if (!(await authenticate(result.data.email, result.data.password))) return { error: "The email or password is incorrect." };
+    if (!(await authenticate(result.data.email, result.data.password))) return { error: "The email or password is incorrect. Passwords are case-sensitive." };
   } catch { return { error: "Authentication is not configured yet." }; }
   redirect("/admin");
 }

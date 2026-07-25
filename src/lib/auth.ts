@@ -25,6 +25,13 @@ async function ensureAdmin() {
     const passwordHash = await bcrypt.hash(password, 12);
     const result = await collection.insertOne({ email, passwordHash, createdAt: new Date(), updatedAt: new Date() });
     admin = { _id: result.insertedId, email, passwordHash };
+  } else if (!(await bcrypt.compare(password, String(admin.passwordHash)))) {
+    const passwordHash = await bcrypt.hash(password, 12);
+    await collection.updateOne(
+      { _id: admin._id },
+      { $set: { passwordHash, updatedAt: new Date() } },
+    );
+    admin.passwordHash = passwordHash;
   }
   return admin;
 }

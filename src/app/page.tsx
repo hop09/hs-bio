@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { ArrowRight, Layers3, ShieldCheck, Sparkles } from "lucide-react";
 import { ThemeSwitcher } from "@/components/theme-switcher";
+import { BrandLogo } from "@/components/brand-logo";
 
 export default function Home() {
   return <main className="home-page">
-    <nav className="home-nav"><Link href="/" className="brand-mark"><span>HS</span> Bio</Link><div><ThemeSwitcher compact /><Link href="/admin" className="nav-login">Admin</Link></div></nav>
+    <nav className="home-nav"><Link href="/" aria-label="HS Bio home"><BrandLogo /></Link><div><ThemeSwitcher compact /><Link href="/admin" className="nav-login">Admin</Link></div></nav>
     <section className="home-hero">
       <p className="eyebrow"><Sparkles size={15} /> A home for everything you make</p>
       <h1>One link.<br/><em>Entirely yours.</em></h1>

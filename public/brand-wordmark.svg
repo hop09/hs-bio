@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="210" height="48" viewBox="0 0 210 48" role="img" aria-labelledby="title">
+  <title id="title">HS Bio</title>
+  <rect width="48" height="48" rx="15" fill="#171713"/>
+  <path d="M13.5 13.5v21m0-10.5h10m0-10.5v21" fill="none" stroke="#f7f5ef" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.2"/>
+  <path d="M35.5 16.2c-1.2-2-6.9-2.5-8.2.7-1.9 4.7 8.5 4.4 8.5 10.8 0 5.3-7.9 7.1-10.7 2.8" fill="none" stroke="#a78bfa" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.2"/>
+  <text x="64" y="32" fill="#171713" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="800" letter-spacing="-1.2">HS <tspan font-weight="500">Bio</tspan></text>
+</svg>

@@ -20,8 +20,18 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"),
   title: { default: "HS Bio — One link, entirely yours", template: "%s · HS Bio" },
   description: "Premium, responsive bio pages for creators, professionals, and modern brands.",
+  applicationName: "HS Bio",
+  icons: {
+    icon: "/brand-mark.svg",
+    shortcut: "/brand-mark.svg",
+  },
+  openGraph: {
+    siteName: "HS Bio",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
