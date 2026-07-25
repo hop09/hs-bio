@@ -19,6 +19,7 @@ import {
 import Link from "next/link";
 import { saveProfileAction } from "@/app/admin/actions";
 import { ContentBuilder } from "@/components/content-builder";
+import { LiveProfilePreview } from "@/components/live-profile-preview";
 import { MediaUploadField } from "@/components/media-upload-field";
 import {
   themeIds,
@@ -94,19 +95,22 @@ export function ProfileEditor({ initial }: { initial?: BioProfile }) {
         ))}
       </div>
 
-      <div className="editor-workspace">
-        {activeTab === "profile" && (
-          <ProfileTab profile={profile} onChange={setProfile} themeOptions={themeOptions} />
-        )}
-        {activeTab === "social" && (
-          <SocialTab links={profile.socialLinks} onChange={(socialLinks) => setProfile({ ...profile, socialLinks })} />
-        )}
-        {activeTab === "content" && (
-          <ContentBuilder blocks={profile.blocks} onChange={(blocks) => setProfile({ ...profile, blocks })} />
-        )}
-        {activeTab === "seo" && (
-          <SeoTab profile={profile} onChange={setProfile} />
-        )}
+      <div className="editor-body-grid">
+        <div className="editor-workspace">
+          {activeTab === "profile" && (
+            <ProfileTab profile={profile} onChange={setProfile} themeOptions={themeOptions} />
+          )}
+          {activeTab === "social" && (
+            <SocialTab links={profile.socialLinks} onChange={(socialLinks) => setProfile({ ...profile, socialLinks })} />
+          )}
+          {activeTab === "content" && (
+            <ContentBuilder blocks={profile.blocks} onChange={(blocks) => setProfile({ ...profile, blocks })} />
+          )}
+          {activeTab === "seo" && (
+            <SeoTab profile={profile} onChange={setProfile} />
+          )}
+        </div>
+        <LiveProfilePreview profile={profile} />
       </div>
 
       <div className="sticky-save-bar">
