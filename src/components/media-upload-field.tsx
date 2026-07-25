@@ -5,26 +5,31 @@ import {
   FileVideo2,
   ImageIcon,
   LoaderCircle,
+  Pencil,
   UploadCloud,
 } from "lucide-react";
 import { useRef, useState } from "react";
+import { ImageCropDialog } from "@/components/image-crop-dialog";
 
 export function MediaUploadField({
   value,
   onChange,
   kind,
   placeholder,
+  aspect = 4 / 3,
 }: {
   value: string;
   onChange: (url: string) => void;
   kind: "image" | "video";
   placeholder?: string;
+  aspect?: number;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [progress, setProgress] = useState(0);
   const [uploading, setUploading] = useState(false);
   const [uploaded, setUploaded] = useState(false);
   const [error, setError] = useState("");
+  const [cropping, setCropping] = useState(false);
 
   function upload(file?: File) {
     if (!file) return;
@@ -82,6 +87,18 @@ export function MediaUploadField({
           }}
           placeholder={placeholder || (kind === "image" ? "Upload or paste an image URL" : "Upload or paste a video URL")}
         />
+        {kind === "image" && value && (
+          <button
+            type="button"
+            className="crop-trigger"
+            onClick={() => setCropping(true)}
+            disabled={uploading}
+            aria-label="Crop image"
+            title="Crop image"
+          >
+            <Pencil size={16} />
+          </button>
+        )}
         <button
           type="button"
           className="upload-trigger"
@@ -104,6 +121,18 @@ export function MediaUploadField({
       />
       {uploading && <div className="upload-progress"><span style={{ width: `${progress}%` }} /></div>}
       {error && <p className="upload-error" role="alert">{error}</p>}
+      {cropping && (
+        <ImageCropDialog
+          source={value}
+          initialAspect={aspect}
+          busy={uploading}
+          onClose={() => setCropping(false)}
+          onApply={(file) => {
+            setCropping(false);
+            upload(file);
+          }}
+        />
+      )}
     </div>
   );
 }

@@ -122,6 +122,24 @@ export interface TextBlock {
   content: string;
 }
 
+export interface ProjectsBlock {
+  id: string;
+  type: "projects";
+  title?: string;
+  items: Array<{
+    id: string;
+    title: string;
+    caption: string;
+    description: string;
+    defaultImageId?: string;
+    images: Array<{
+      id: string;
+      src: string;
+      alt: string;
+    }>;
+  }>;
+}
+
 export type ContentBlock =
   | LinkBlock
   | GalleryBlock
@@ -129,7 +147,8 @@ export type ContentBlock =
   | BlogBlock
   | VideoBlock
   | AdBlock
-  | TextBlock;
+  | TextBlock
+  | ProjectsBlock;
 
 export interface BioProfile {
   _id?: string;

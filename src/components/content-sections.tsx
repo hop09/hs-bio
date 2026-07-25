@@ -5,6 +5,7 @@ import type { BioProfile, ContentBlock } from "@/lib/types";
 import { formatDate, safeExternalUrl } from "@/lib/utils";
 import { VideoCard } from "@/components/video-card";
 import { AdSlot } from "@/components/ad-slot";
+import { ProjectsSection } from "@/components/projects-section";
 
 function SectionHeading({ children }: { children?: React.ReactNode }) {
   return children ? <h2 className="section-title">{children}</h2> : null;
@@ -44,6 +45,7 @@ function ContentSection({ block, slug }: { block: ContentBlock; slug: string }) 
     </div></section>
   );
   if (block.type === "videos") return <section className="content-section videos-section"><SectionHeading>{block.title}</SectionHeading><div className="video-list">{block.items.map((video) => <VideoCard key={video.id} video={video} />)}</div></section>;
+  if (block.type === "projects") return <ProjectsSection block={block} />;
   if (block.type === "ad") return <AdSlot block={block} />;
   if (block.type === "text") return <section className="content-section text-section"><SectionHeading>{block.title}</SectionHeading><div className="rich-text">{block.content}</div></section>;
   return null;

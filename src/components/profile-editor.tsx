@@ -144,8 +144,8 @@ function ProfileTab({
           <div className="avatar-preview" style={{ backgroundImage: `url("${profile.profileImage}")` }} />
         </div>
         <div className="settings-fields">
-          <label>Profile image<MediaUploadField kind="image" value={profile.profileImage} onChange={(profileImage) => onChange({ ...profile, profileImage })} /></label>
-          <label>Cover image<MediaUploadField kind="image" value={profile.coverImage} onChange={(coverImage) => onChange({ ...profile, coverImage })} /></label>
+          <label>Profile image<MediaUploadField kind="image" aspect={1} value={profile.profileImage} onChange={(profileImage) => onChange({ ...profile, profileImage })} /></label>
+          <label>Cover image<MediaUploadField kind="image" aspect={3} value={profile.coverImage} onChange={(coverImage) => onChange({ ...profile, coverImage })} /></label>
         </div>
       </section>
 
@@ -201,7 +201,7 @@ function SeoTab({ profile, onChange }: { profile: BioProfile; onChange: (profile
         <div className="settings-fields">
           <label>SEO title<input value={seo.title || ""} onChange={(e) => update({ title: e.target.value })} placeholder={`${profile.name || "Profile name"} — Official bio`} /></label>
           <label>Meta description<textarea rows={5} value={seo.description || ""} onChange={(e) => update({ description: e.target.value })} placeholder={profile.bio || "Describe this profile…"} /></label>
-          <label>Social sharing image<MediaUploadField kind="image" value={seo.ogImage || ""} onChange={(ogImage) => update({ ogImage })} placeholder={profile.coverImage} /></label>
+          <label>Social sharing image<MediaUploadField kind="image" aspect={1200 / 630} value={seo.ogImage || ""} onChange={(ogImage) => update({ ogImage })} placeholder={profile.coverImage} /></label>
         </div>
       </section>
       <section className="settings-card search-preview-card">

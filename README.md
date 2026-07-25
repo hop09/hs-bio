@@ -62,10 +62,11 @@ services so the application remains deployable locally or on Vercel.
 ## Content model
 
 Each profile stores an ordered `blocks` array. Supported block types are
-`links`, `gallery`, `posts`, `blogs`, `videos`, `ad`, and `text`. Moving an
-object in this array changes its public placement, including advertisement
-positions. Ad code is trusted-admin content and is never accepted from public
-visitors.
+`links`, `gallery`, `posts`, `blogs`, `videos`, `projects`, `ad`, and `text`.
+Moving an object in this array changes its public placement, including
+advertisement positions. Projects support unlimited slider images, a chosen
+default card image, a caption, and a detailed description. Ad code is
+trusted-admin content and is never accepted from public visitors.
 
 The admin builder exposes this model through regular forms: sections and nested
 items can be added, edited, reordered, or removed without writing JSON.
@@ -75,6 +76,8 @@ items can be added, edited, reordered, or removed without writing JSON.
 The protected admin uploader supports JPG, PNG, WebP, GIF, AVIF, MP4, WebM,
 OGV, and MOV files. Uploaded filenames are randomized and media is delivered
 through `/media/*`; video responses support HTTP byte ranges for seeking.
+Every image field also includes a pencil action for crop, zoom, aspect-ratio
+selection, and re-uploading the optimized WebP result.
 
 For Hostinger production, create a persistent writable directory outside
 temporary build output where possible, then configure:
