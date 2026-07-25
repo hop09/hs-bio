@@ -33,6 +33,10 @@ dynamic bio pages.
 
 Open [http://localhost:3000](http://localhost:3000).
 
+The production server requires Node.js 20.9 or newer. After deployment,
+`/api/health` reports whether both the application and MongoDB connection are
+available.
+
 ## Environment variables
 
 - `MONGODB_URI`: MongoDB Atlas driver connection string.

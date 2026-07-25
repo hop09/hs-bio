@@ -19,13 +19,16 @@ function createClient() {
   }).connect();
 }
 
-export const clientPromise =
-  globalForMongo.mongoClientPromise ?? createClient();
-
-if (process.env.NODE_ENV !== "production") {
-  globalForMongo.mongoClientPromise = clientPromise;
+export function getClientPromise() {
+  if (!globalForMongo.mongoClientPromise) {
+    globalForMongo.mongoClientPromise = createClient().catch((error) => {
+      globalForMongo.mongoClientPromise = undefined;
+      throw error;
+    });
+  }
+  return globalForMongo.mongoClientPromise;
 }
 
 export async function getDatabase(): Promise<Db> {
-  return (await clientPromise).db(dbName);
+  return (await getClientPromise()).db(dbName);
 }
