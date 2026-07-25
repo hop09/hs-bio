@@ -37,6 +37,15 @@ The production server requires Node.js 20.9 or newer. After deployment,
 `/api/health` reports whether both the application and MongoDB connection are
 available.
 
+For Hostinger manual build settings use:
+
+- Framework: `Next.js` (or `Other` if automatic detection fails)
+- Build command: `npm run build`
+- Output directory: `.next`
+- Start command: `npm start`
+- Entry file when requested: `server.mjs`
+- Listening port: Hostinger-provided `PORT` (the server binds automatically)
+
 ## Environment variables
 
 - `MONGODB_URI`: MongoDB Atlas driver connection string.
