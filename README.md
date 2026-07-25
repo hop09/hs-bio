@@ -11,8 +11,8 @@ dynamic bio pages.
 - Ten structural profile themes with light and dark mode support
 - Ordered links, galleries, notes, blogs, videos, advertisements, and text blocks
 - First-click external video redirect followed by a configurable timed unlock
-- Protected profile dashboard with publishing, verification, theme, media, and
-  advanced structured-content controls
+- Protected no-code profile dashboard with publishing, verification, theme,
+  media previews, social profiles, SEO, and visual ordered-section controls
 
 ## Local setup
 
@@ -53,3 +53,6 @@ Each profile stores an ordered `blocks` array. Supported block types are
 object in this array changes its public placement, including advertisement
 positions. Ad code is trusted-admin content and is never accepted from public
 visitors.
+
+The admin builder exposes this model through regular forms: sections and nested
+items can be added, edited, reordered, or removed without writing JSON.
